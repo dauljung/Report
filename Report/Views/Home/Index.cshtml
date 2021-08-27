@@ -1,0 +1,73 @@
+﻿@{
+	ViewBag.Title = "코딩과제";
+}
+
+<div>
+	<h4>[입력]</h4><br />
+	<table class="table">
+		<tr>
+			<td>URL</td>
+			<td><input type="text" id="Url" class="form-control" /></td>
+		</tr>
+		<tr>
+			<td>Type</td>
+			<td>
+				<select id="Type" class="form-control">
+					<option value="onlyText">HTML 태그 제외</option>
+					<option value="AllText">Text 전체</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>출력 단위 묶음</td>
+			<td><input type="text" id="Unit" class="form-control" /></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><button type="button" onclick="fnAjax()" class="form-control btn-primary">출력</button></td>
+		</tr>
+	</table>
+	<h4>[출력]</h4><br />
+	<table class="table">
+		<tr>
+			<td>몫</td>
+			<td id="share"></td>
+		<tr>
+			<td>나머지</td>
+			<td id="remain"></td>
+
+		</tr>
+	</table>
+</div>
+
+<script>
+	function fnAjax() {
+		var url = $("#Url").val();
+		var regex = /^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?/;
+
+		if (url == "" || regex.test(url) == false) {
+			alert('올바른 URL을 입력해주세요');
+		}
+		else {
+			var senddata = "strUrl=" + url + "&strType=" + $("#Type option:selected").val();
+
+			$.ajax({
+				type: "POST",
+				url: "Home/PrintResultAjax",
+				data: senddata,
+				success: function (result) {
+					fnPrintResult(result);
+				},
+				error: function (error) {
+					//alert("error");
+				}
+			});
+		}
+	}
+
+	function fnPrintResult(result) {
+		var unit = $("#Unit").val();
+		document.getElementById('share').innerText = result.substring(0, unit);
+		document.getElementById('remain').innerText = result.substring(unit, result.length);
+	}
+</script>
