@@ -66,8 +66,14 @@
 	}
 
 	function fnPrintResult(result) {
-		var unit = $("#Unit").val();
-		document.getElementById('share').innerText = result.substring(0, unit);
-		document.getElementById('remain').innerText = result.substring(unit, result.length);
+        var unit = $("#Unit").val();
+
+        if (!isNaN(unit)) {
+            document.getElementById('share').innerText = result.substring(0, unit);
+            document.getElementById('remain').innerText = result.substring(unit, result.length);
+        }
+        else {
+            alert('출력 묶음 단위는 숫자로 입력해주세요.');
+        }
 	}
 </script>
