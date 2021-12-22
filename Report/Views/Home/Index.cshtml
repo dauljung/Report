@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "코딩과제";
+    ViewBag.Title = "크롤링";
 }
 <body>
     <div>
@@ -35,7 +35,6 @@
             <tr>
                 <td>나머지</td>
                 <td id="remain"></td>
-
             </tr>
         </table>
     </div>
@@ -44,8 +43,10 @@
 <script>
     function fnAjax() {
         var url = $("#Url").val();
-        var unit = $("#Unit").val();
-        var regex = /^(((http(s?))\:\/\/)?)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?/;
+		var unit = $("#Unit").val();
+
+		//프로토콜을 포함하고 있는 URL 정규식
+		var regex = /^((http(s?))\:\/\/)([0-9a-zA-Z\-]+\.)+[a-zA-Z]{2,6}(\:[0-9]+)?(\/\S*)?$/
 
         if (url == "" || regex.test(url) == false) {
             alert('올바른 URL을 입력해주세요');

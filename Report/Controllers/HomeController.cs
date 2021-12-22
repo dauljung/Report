@@ -17,6 +17,12 @@ namespace Report.Controllers
 			return View();
 		}
 
+		/// <summary>
+		/// 크롤링 Ajax 함수
+		/// </summary>
+		/// <param name="strUrl"></param>
+		/// <param name="strType"></param>
+		/// <returns></returns>
 		public string PrintResultAjax(string strUrl, string strType)
 		{
 			string strHtml = string.Empty;
@@ -34,16 +40,16 @@ namespace Report.Controllers
 				}
 			}
 
-			//html 태그 제외
+			//html 태그 제외, 텍스트만 출력
 			if (strType.Equals("onlyText"))
 			{
 				strHtml = Regex.Replace(strHtml, @"<[^>]*>", string.Empty).Replace(Environment.NewLine, string.Empty).Replace("\t", string.Empty);
 			}
 
-			//영어만
+			//영어만 출력 후 대문자,소문자 순서로 오더바이
 			var arrEng = Regex.Replace(strHtml, @"[^a-zA-Z]", string.Empty).Select(z=>z.ToString()).OrderBy(n => n, StringComparer.OrdinalIgnoreCase).ThenBy(x => x, StringComparer.Ordinal).ToArray();
 
-			//숫자만
+			//숫자만 출력
 			var arrNum = Regex.Replace(strHtml, @"[^0-9]", string.Empty).Select(n => n.ToString()).OrderBy(n => n).ToArray();
 
 			int arrEngLen = 0;
@@ -57,6 +63,7 @@ namespace Report.Controllers
 
 			count = arrEngLen > arrNumLen ? arrEngLen : arrNumLen;
 
+			//영어,숫자 교차로 출력
 			for (int i = 0; i < count; i++)
 			{
 				if (arrEngLen > i)
